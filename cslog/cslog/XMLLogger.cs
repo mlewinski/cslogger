@@ -67,6 +67,11 @@ namespace cslog
             }
         #endregion
 
+        /// <summary>
+        /// Writes log message into log file. If file does not exists creates it with adequate directories from path
+        /// </summary>
+        /// <param name="message">Log message to write</param>
+        /// <param name="category">Log category <seealso cref="Categories"/></param>
         public void WriteToLog(string message, Categories category)
         {
             while (true)
