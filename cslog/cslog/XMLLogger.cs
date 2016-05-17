@@ -32,7 +32,7 @@ namespace cslog
             /// <param name="filePrefix">Prefix for log files names. Default is null</param>
             public XmlLogger(bool operatingMode, string path, string filePrefix = "")
             {
-                _operatingMode = false;
+                _operatingMode = true;
                 _filePrefix = filePrefix;
                 _path = path;
             }
@@ -78,7 +78,7 @@ namespace cslog
                 }
                 else
                 {
-                    filename = _filePrefix + DateTime.Now.Date.ToString("yyyMMdd");
+                    filename = _filePrefix + DateTime.Now.Date.ToString("yyyMMdd") + ".xml";
                 }
                 filename = Path.Combine(_path, filename);
                 if (File.Exists(filename))
@@ -125,6 +125,7 @@ namespace cslog
             if (File.Exists(filename)) return;
             try
             {
+                Directory.CreateDirectory(Path.GetDirectoryName(filename));
                 XmlWriter writer = XmlWriter.Create(filename);
                 writer.WriteStartDocument();
                 writer.WriteStartElement("Log");
