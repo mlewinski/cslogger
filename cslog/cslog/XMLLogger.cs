@@ -89,15 +89,32 @@ namespace cslog
                 if (File.Exists(filename))
                 {
                     XmlDocument xmlDocument = new XmlDocument();
-                    xmlDocument.Load(filename);
+
+                    try
+                    {
+                        xmlDocument.Load(filename);
+                    }
+                    catch (XmlException)
+                    {
+                        XmlTextWriter writer = new XmlTextWriter(filename, null);
+                        writer.WriteStartDocument();
+                        writer.WriteStartElement("Log");
+                        writer.WriteEndElement();
+                        writer.WriteEndDocument();
+                        writer.Close();
+                        xmlDocument.Load(filename);
+                    }
+
                     if (xmlDocument.SelectSingleNode("//Log") == null)
                     {
                         XmlWriter writer = XmlWriter.Create(filename);
                         writer.WriteStartDocument();
                         writer.WriteStartElement("Log");
                         writer.WriteStartElement("message");
-                        writer.WriteAttributeString("type", category.ToString());
+                        writer.WriteAttributeString("date", DateTime.Now.Date.ToString("yyyy-MM-dd"));
                         writer.WriteAttributeString("time", DateTime.Now.Date.ToString("HH:mm:ss:fff"));
+                        writer.WriteAttributeString("type", category.ToString());
+                        
                         writer.WriteString(message);
                         writer.WriteEndElement();
                         writer.WriteEndDocument();
@@ -107,8 +124,11 @@ namespace cslog
                         XmlNode node = xmlDocument.CreateElement("message");
                         XmlAttribute type = xmlDocument.CreateAttribute("type");
                         type.Value = category.ToString();
+                        XmlAttribute date = xmlDocument.CreateAttribute("date");
+                        date.Value = DateTime.Now.Date.ToString("yyyy-MM-dd");
                         XmlAttribute time = xmlDocument.CreateAttribute("time");
                         time.Value = DateTime.Now.ToString("HH:mm:ss:fff");
+                        node.Attributes.Append(date);
                         node.Attributes.Append(type);
                         node.Attributes.Append(time);
                         node.InnerText = message;
