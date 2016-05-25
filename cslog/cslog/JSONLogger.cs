@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace cslog
 {
-    class JSONLogger
+    public class JSONLogger
     {
         private string _filename;
         private bool _operatingMode;
@@ -38,6 +38,7 @@ namespace cslog
             if (File.Exists(filename)) jsonString = File.ReadAllText(filename);
 
             List<string> logs = JsonConvert.DeserializeObject<List<string>>(jsonString);
+            if(logs == null) logs=new List<string>();
             logs.Add(String.Format("Date: {0} | Time: {1} | Category: {2} | Message: {3}", DateTime.Now.ToString("yyyy-MM-dd"), DateTime.Now.ToString("HH:mm:ss:fff"), category, message));
             jsonString = JsonConvert.SerializeObject(logs);
             File.WriteAllText(filename, jsonString);
