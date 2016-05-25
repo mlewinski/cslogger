@@ -12,10 +12,14 @@ namespace Example
         static void Main(string[] args)
         {
             XmlLogger Logger = new XmlLogger(false, "logs/", "log_number_");
-            for(int i = 0; i<100; i++) Logger.WriteToLog(i.ToString(), Categories.Error);
+            for (int i = 0; i < 100; i++) Logger.WriteToLog(i.ToString(), Categories.Error);
 
             TextLogger lg = new TextLogger("", "log_");
-            for(int i = 0; i<100; i++) lg.WriteToLog(Categories.Critical, i.ToString());
+            for (int i = 0; i < 100; i++) lg.WriteToLog(Categories.Critical, i.ToString());
+
+            JSONLogger jlog = new JSONLogger(false, "", "log.json");
+
+            for (int i = 0; i < 100; i++) jlog.WriteToLog(Categories.Debug, i.ToString());
         }
     }
 }
