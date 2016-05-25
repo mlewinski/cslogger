@@ -24,47 +24,47 @@ namespace cslog
         private string _path = "";              // directory for storing files
 
         #region Constructors
-            /// <summary>
-            /// Separate files logging mode. Logs are stored in separate files, each containing logs from single day
-            /// </summary>
-            /// <param name="operatingMode">Unused parameter</param>
-            /// <param name="path">Directory for log files</param>
-            /// <param name="filePrefix">Prefix for log files names. Default is null</param>
-            public XmlLogger(bool operatingMode, string path, string filePrefix = "")
-            {
-                _operatingMode = true;
-                _filePrefix = filePrefix;
-                _path = path;
-            }
+        /// <summary>
+        /// Separate files logging mode. Logs are stored in separate files, each containing logs from single day
+        /// </summary>
+        /// <param name="operatingMode">Unused parameter</param>
+        /// <param name="path">Directory for log files</param>
+        /// <param name="filePrefix">Prefix for log files names. Default is null</param>
+        public XmlLogger(bool operatingMode, string path, string filePrefix = "")
+        {
+            _operatingMode = true;
+            _filePrefix = filePrefix;
+            _path = path;
+        }
 
-            /// <summary>
-            /// Default logging mode - stores log in single file
-            /// </summary>
-            /// <param name="path">Directory for log file</param>
-            /// <param name="filename">Name of file to store logs in. Default is cslog.xml</param>
-            public XmlLogger(string path, string filename = "cslog.xml")
-            {
-                _operatingMode = false;
-                _path = path;
-                _filename = filename;
-            }
+        /// <summary>
+        /// Default logging mode - stores log in single file
+        /// </summary>
+        /// <param name="path">Directory for log file</param>
+        /// <param name="filename">Name of file to store logs in. Default is cslog.xml</param>
+        public XmlLogger(string path, string filename = "cslog.xml")
+        {
+            _operatingMode = false;
+            _path = path;
+            _filename = filename;
+        }
 
-            /// <summary>
-            /// Select operating mode with default filenames
-            /// </summary>
-            /// <param name="operatingMode">Operating mode. False for single-file, true for separate-files</param>
-            public XmlLogger(bool operatingMode)
-            {
-                _operatingMode = operatingMode;
-            }
+        /// <summary>
+        /// Select operating mode with default filenames
+        /// </summary>
+        /// <param name="operatingMode">Operating mode. False for single-file, true for separate-files</param>
+        public XmlLogger(bool operatingMode)
+        {
+            _operatingMode = operatingMode;
+        }
 
-            /// <summary>
-            /// Default values, single-file mode
-            /// </summary>
-            public XmlLogger()
-            {
-                _operatingMode = false;
-            }
+        /// <summary>
+        /// Default values, single-file mode
+        /// </summary>
+        public XmlLogger()
+        {
+            _operatingMode = false;
+        }
         #endregion
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace cslog
                 }
                 else
                 {
-                    filename = _filePrefix + DateTime.Now.Date.ToString("yyyMMdd") + ".xml";
+                    filename = _filePrefix + DateTime.Now.Date.ToString("yyyyMMdd") + ".xml";
                 }
                 filename = Path.Combine(_path, filename);
                 if (File.Exists(filename))
@@ -114,7 +114,7 @@ namespace cslog
                         writer.WriteAttributeString("date", DateTime.Now.Date.ToString("yyyy-MM-dd"));
                         writer.WriteAttributeString("time", DateTime.Now.Date.ToString("HH:mm:ss:fff"));
                         writer.WriteAttributeString("type", category.ToString());
-                        
+
                         writer.WriteString(message);
                         writer.WriteEndElement();
                         writer.WriteEndDocument();
